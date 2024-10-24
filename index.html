@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Motion Background Color Change</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s; /* Smooth transition */
+        }
+
+        .shake-info {
+            font-size: 24px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shake-info">Shake your device to change the background color!</div>
+
+    <script>
+        // Threshold for shake detection
+        const shakeThreshold = 15;
+
+        // List of colors to change to
+        const colors = [
+            '#3498db', // Blue
+            '#e74c3c', // Red
+            '#2ecc71', // Green
+            '#f1c40f', // Yellow
+            '#9b59b6', // Purple
+            '#34495e'  // Dark Blue
+        ];
+
+        // Device motion event listener
+        window.addEventListener("devicemotion", (event) => {
+            const acceleration = event.acceleration;
+            if (acceleration) {
+                const { x, y, z } = acceleration;
+
+                // Check if the shake exceeds the threshold
+                if (Math.abs(x) > shakeThreshold || Math.abs(y) > shakeThreshold || Math.abs(z) > shakeThreshold) {
+                    changeBackgroundColor();
+                }
+            }
+        });
+
+        // Function to change background color
+        function changeBackgroundColor() {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            gsap.to(document.body, { backgroundColor: randomColor, duration: 0.5 });
+        }
+    </script>
+
+</body>
+</html>
